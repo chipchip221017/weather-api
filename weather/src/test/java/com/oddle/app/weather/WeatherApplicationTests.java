@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
@@ -74,7 +73,7 @@ class WeatherApplicationTests {
 
 	@Test
 	public void canGetWeatherHistoryPeriod() throws Exception {
-		List<WeatherReport> weatherReportList = new ArrayList();
+		ArrayList<WeatherReport> weatherReportList = new ArrayList();
 		WeatherReport weather1 = new WeatherReport();
 		weather1.setCityName("Singapore");
 		WeatherReport weather2 = new WeatherReport();
@@ -107,7 +106,7 @@ class WeatherApplicationTests {
 				.andExpect((status().isOk()));
 	}
 
-	public static String asJsonString(final Object obj) {
+	private static String asJsonString(final Object obj) {
 		try {
 			return new ObjectMapper().writeValueAsString(obj);
 		} catch (Exception e) {
