@@ -1,5 +1,6 @@
 package com.oddle.app.weather.dao;
 
+import com.oddle.app.weather.exception.ResourceNotFoundException;
 import com.oddle.app.weather.model.WeatherReport;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -41,6 +42,9 @@ public class WeatherDaoImpl implements WeatherDao {
     public void delete(final int id) {
         Session currentSession = entityManager.unwrap(Session.class);
         WeatherReport weatherReport = currentSession.get(WeatherReport.class, id);
+        if (weatherReport == null) {
+            throw new ResourceNotFoundException("Weather data not found");
+        }
         currentSession.delete(weatherReport);
     }
 }

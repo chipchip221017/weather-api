@@ -1,8 +1,8 @@
 package com.oddle.app.weather.controller;
 
+import com.oddle.app.weather.exception.ResourceNotFoundException;
 import com.oddle.app.weather.model.WeatherReport;
 import com.oddle.app.weather.service.WeatherService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,9 +69,13 @@ public class WeatherController {
 
     @GetMapping("/history/{id}")
     @ApiOperation(value = "Get weather by id")
-    public WeatherReport getWeatherById(
+    public ResponseEntity<WeatherReport> getWeatherById(
             @ApiParam(value = "The weather report id", required = true) @PathVariable(value = "id") int id) {
-       return weatherService.get(id);
+        final WeatherReport weather = weatherService.get(id);
+        if (weather == null) {
+            throw new ResourceNotFoundException("Weather data not found");
+        }
+        return ResponseEntity.ok().body(weather);
     }
 
     @ApiOperation(value = "Get historical weather data from past periods")
@@ -92,7 +96,7 @@ public class WeatherController {
         return weatherReport;
     }
 
-    @DeleteMapping("/history/{id}")
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete historical weather data")
     public ResponseEntity<?> deleteWeather(
             @ApiParam(value = "The weather report id to delete", required = true) @PathVariable(value = "id") int id) {
