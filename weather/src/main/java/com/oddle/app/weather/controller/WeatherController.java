@@ -2,6 +2,9 @@ package com.oddle.app.weather.controller;
 
 import com.oddle.app.weather.model.WeatherReport;
 import com.oddle.app.weather.service.WeatherService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -46,7 +49,9 @@ public class WeatherController {
     }
 
     @GetMapping(value = "/{city}")
-    public WeatherReport getWeatherByCity(@PathVariable(value = "city") String city) {
+    @ApiOperation(value = "Search for today weather of a specific city")
+    public WeatherReport getWeatherByCity(
+            @ApiParam(value = "city name", required = true) @PathVariable(value = "city") String city) {
         String url = weatherApiUrl;
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url).queryParam("q", city)
                 .queryParam("apiKey", weatherApiKey);
@@ -55,31 +60,42 @@ public class WeatherController {
     }
 
     @PostMapping
-    public WeatherReport saveWeather(@RequestBody WeatherReport weatherReport) {
+    @ApiOperation(value = "Save weather data")
+    public WeatherReport saveWeather(
+            @ApiParam(value = "The weather data to save", required = true) @RequestBody WeatherReport weatherReport) {
         weatherService.save(weatherReport);
         return weatherReport;
     }
 
     @GetMapping("/history/{id}")
-    public WeatherReport getWeatherById(@PathVariable(value = "id") int id) {
+    @ApiOperation(value = "Get weather by id")
+    public WeatherReport getWeatherById(
+            @ApiParam(value = "The weather report id", required = true) @PathVariable(value = "id") int id) {
        return weatherService.get(id);
     }
 
+    @ApiOperation(value = "Get historical weather data from past periods")
     @GetMapping("/history/period/{startTime}/{endTime}")
-    public List<WeatherReport> getWeatherHistoryPeriod(@PathVariable(value = "startTime") int startTime,
-                                                       @PathVariable(value = "endTime") int endTime) {
+    public List<WeatherReport> getWeatherHistoryPeriod(
+            @ApiParam(value = "UNIX start time of period", required = true) @PathVariable(value = "startTime") int startTime,
+            @ApiParam(value = "UNIX end time of period", required = true) @PathVariable(value = "endTime") int endTime) {
         return weatherService.getWeatherHistory(startTime, endTime);
     }
 
     @PutMapping("/{id}")
-    public WeatherReport updateWeather(@PathVariable(value = "id") int id, @RequestBody WeatherReport weatherReport) {
+    @ApiOperation(value = "Update historical weather data")
+    public WeatherReport updateWeather(
+            @ApiParam(value = "The weather report id to update", required = true) @PathVariable(value = "id") int id,
+            @ApiParam(value = "The update weather report ", required = true) @RequestBody WeatherReport weatherReport) {
         weatherReport.setId(id);
         weatherService.save(weatherReport);
         return weatherReport;
     }
 
     @DeleteMapping("/history/{id}")
-    public ResponseEntity<?> deleteWeather(@PathVariable(value = "id") int id) {
+    @ApiOperation(value = "Delete historical weather data")
+    public ResponseEntity<?> deleteWeather(
+            @ApiParam(value = "The weather report id to delete", required = true) @PathVariable(value = "id") int id) {
         weatherService.delete(id);
         return ResponseEntity.ok().build();
     }
