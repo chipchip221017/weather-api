@@ -19,7 +19,7 @@ public class WeatherDaoImpl implements WeatherDao {
     @Override
     public void save(final WeatherReport weatherReport) {
         Session currentSession = entityManager.unwrap(Session.class);
-        currentSession.saveOrUpdate(weatherReport);
+        currentSession.save(weatherReport);
     }
 
     @Override
@@ -46,5 +46,33 @@ public class WeatherDaoImpl implements WeatherDao {
             throw new ResourceNotFoundException("Weather data not found");
         }
         currentSession.delete(weatherReport);
+    }
+
+    @Override
+    public void update(final int id, final WeatherReport weatherReport) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        WeatherReport existingWeather = currentSession.byId(WeatherReport.class).load(id);
+        if (existingWeather == null) {
+            currentSession.save(weatherReport);
+        } else {
+            update(weatherReport, existingWeather);
+            currentSession.flush();
+        }
+    }
+
+    private void update(final WeatherReport weatherReport, final WeatherReport existingWeather) {
+        existingWeather.setCityName(weatherReport.getCityName());
+        existingWeather.setCityId(weatherReport.getCityId());
+        existingWeather.setCod(weatherReport.getCod());
+        existingWeather.setWeather(weatherReport.getWeather());
+        existingWeather.setBase(weatherReport.getBase());
+        existingWeather.setClouds(weatherReport.getClouds());
+        existingWeather.setCoord(weatherReport.getCoord());
+        existingWeather.setDt(weatherReport.getDt());
+        existingWeather.setMain(weatherReport.getMain());
+        existingWeather.setSys(weatherReport.getSys());
+        existingWeather.setTimezone(weatherReport.getTimezone());
+        existingWeather.setVisibility(weatherReport.getVisibility());
+        existingWeather.setWind(weatherReport.getWind());
     }
 }

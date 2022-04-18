@@ -9,4 +9,5 @@ public interface WeatherDao {
     WeatherReport get(int id);
     List<WeatherReport> getWeatherHistory(int startTime, int endTime);
     void delete(int id);
+    void update(int id, WeatherReport weatherReport);
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,20 +29,8 @@ import java.util.Map;
 @RequestMapping("/api/weather")
 public class WeatherController {
 
-    @Value("${weather.api.url}")
-    String weatherApiUrl;
-
-    @Value("${weather.api.key}")
-    String weatherApiKey;
-
     @Autowired
     WeatherService weatherService;
-
-    RestTemplate restTemplate;
-
-    public WeatherController(RestTemplateBuilder restTemplateBuilder) {
-        restTemplate = restTemplateBuilder.build();
-    }
 
     @GetMapping("")
     public Map<String, Object> getWeathers() {
@@ -50,13 +39,9 @@ public class WeatherController {
 
     @GetMapping(value = "/{city}")
     @ApiOperation(value = "Search for today weather of a specific city")
-    public WeatherReport getWeatherByCity(
+    public Mono<WeatherReport> getWeatherByCity(
             @ApiParam(value = "city name", required = true) @PathVariable(value = "city") String city) {
-        String url = weatherApiUrl;
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url).queryParam("q", city)
-                .queryParam("apiKey", weatherApiKey);
-        ResponseEntity<WeatherReport> response = restTemplate.getForEntity(builder.build().toUri(), WeatherReport.class);
-        return response.getBody();
+        return weatherService.getByCity(city);
     }
 
     @PostMapping
@@ -91,8 +76,7 @@ public class WeatherController {
     public WeatherReport updateWeather(
             @ApiParam(value = "The weather report id to update", required = true) @PathVariable(value = "id") int id,
             @ApiParam(value = "The update weather report ", required = true) @RequestBody WeatherReport weatherReport) {
-        weatherReport.setId(id);
-        weatherService.save(weatherReport);
+        weatherService.update(id, weatherReport);
         return weatherReport;
     }
 

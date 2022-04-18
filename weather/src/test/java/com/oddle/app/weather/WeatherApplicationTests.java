@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 
@@ -39,10 +40,12 @@ class WeatherApplicationTests {
 
 	@Test
 	public void canGetWeatherByCity() throws Exception {
-		mvc.perform(get("/api/weather/Singapore")
-					.contentType(MediaType.APPLICATION_JSON))
-					.andExpect(status().isOk())
-					.andExpect(jsonPath("$.name", is("Singapore")));
+		WeatherReport weatherReport = new WeatherReport();
+		weatherReport.setCityName("Singapore");
+		Mono<WeatherReport> weatherReportMono = Mono.just(weatherReport);
+		when(weatherService.getByCity("Singapore")).thenReturn(weatherReportMono);
+		mvc.perform(get("/api/weather/Singapore").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 	}
 
 	@Test
