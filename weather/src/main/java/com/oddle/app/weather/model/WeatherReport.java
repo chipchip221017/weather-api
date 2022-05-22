@@ -51,12 +51,12 @@ public class WeatherReport {
 
     @JsonProperty("coord")
     @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "json")
     private Coord coord;
 
     @JsonProperty("weather")
     @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "json")
     private List<WeatherDetail> weather = new ArrayList<>();
 
     @JsonProperty("base")
@@ -65,7 +65,7 @@ public class WeatherReport {
 
     @JsonProperty("main")
     @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "json")
     private Main main;
 
     @JsonProperty("visibility")
@@ -74,12 +74,12 @@ public class WeatherReport {
 
     @JsonProperty("wind")
     @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "json")
     private Wind wind;
 
     @JsonProperty("clouds")
     @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "json")
     private Clouds clouds;
 
     @JsonProperty("dt")
@@ -88,7 +88,7 @@ public class WeatherReport {
 
     @JsonProperty("sys")
     @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "json")
     private Sys sys;
 
     @JsonProperty("timezone")
