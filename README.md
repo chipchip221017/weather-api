@@ -1,6 +1,6 @@
-# Oddle Backend Challenge - V2
+# Weather API - V1
 
-**Welcome to Oddle Challenge**
+**Welcome to API world**
 
 ## Table of contents
 * [General info](#general-info)
