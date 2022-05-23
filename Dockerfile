@@ -1,8 +1,6 @@
 FROM openjdk:8-jdk-alpine
-ARG JAR_FILE=build/libs/weather-1.0.jar
-COPY ${JAR_FILE} /usr/app/
-WORKDIR /usr/app
+COPY build/libs/*.jar weather.jar
 
-ENTRYPOINT ["java", "-jar", "weather-1.0.jar"]
+ENTRYPOINT ["java", "-jar", "/weather.jar"]
 
 EXPOSE 8080
