@@ -68,9 +68,4 @@ https://openweathermap.org/current
 * Think about scaling your app. You do not need to implement it now.
 
 ## Submission Steps
-* **FORK** the repository https://github.com/oddle-developer/oddle-backend-challenge to your machine
 * Duplicate it to **PRIVATE** repository on your Github account (https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository)
-* Checkout a **NEW BRANCH** for your changes
-* Code. Commit and Push as many times as you want, only the **LAST Pull Request** will be graded
-* Create a Pull Request from your new branch in your private repo and invite us as reviewer
-* Add https://github.com/oddle-hire-java as collaborator for your repo and add `oddle-hire-java` as reviewer to your PR
