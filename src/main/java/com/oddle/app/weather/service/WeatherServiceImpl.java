@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @Service
+@Transactional
 public class WeatherServiceImpl implements WeatherService {
 
     @Autowired
@@ -38,31 +39,26 @@ public class WeatherServiceImpl implements WeatherService {
         return this.webClient.get().uri(builder.build().toUri()).retrieve().bodyToMono(WeatherReport.class);
     }
 
-    @Transactional
     @Override
     public void save(final WeatherReport weatherReport) {
         weatherDao.save(weatherReport);
     }
 
-    @Transactional
     @Override
     public WeatherReport get(final int id) {
         return weatherDao.get(id);
     }
 
-    @Transactional
     @Override
     public List<WeatherReport> getWeatherHistory(int startTime, int endTime) {
         return weatherDao.getWeatherHistory(startTime, endTime);
     }
 
-    @Transactional
     @Override
     public void delete(int id) {
         weatherDao.delete(id);
     }
 
-    @Transactional
     @Override
     public void update(final int id, final WeatherReport weatherReport) {
         weatherDao.update(id, weatherReport);
