@@ -55,7 +55,7 @@ public class WeatherController {
     @GetMapping("/history/{id}")
     @ApiOperation(value = "Get weather by id")
     public ResponseEntity<WeatherReport> getWeatherById(
-            @ApiParam(value = "The weather report id", required = true) @PathVariable(value = "id") int id) {
+            @ApiParam(value = "The weather id", required = true) @PathVariable(value = "id") int id) {
         final WeatherReport weather = weatherService.get(id);
         if (weather == null) {
             throw new ResourceNotFoundException("Weather data not found");
