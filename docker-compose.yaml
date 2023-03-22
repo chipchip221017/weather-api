@@ -6,7 +6,8 @@ services:
     restart: unless-stopped
     environment:
       - MYSQL_DATABASE=weather
-      - MYSQL_ROOT_PASSWORD=Linh1234
+      #- MYSQL_ROOT_PASSWORD=Linh1234
+      - MYSQL_ROOT_PASSWORD=root
     ports:
       - 3306:3306
     volumes:
@@ -15,7 +16,7 @@ services:
     image: weather-app
     depends_on:
       - mysqldb
-#    restart: always
+    restart: always
     build: .
 #      context: .
 #      dockerfile: Dockerfile
@@ -24,7 +25,8 @@ services:
     environment:
       MYSQL_HOST: mysqldb
       MYSQL_USER: root
-      MYSQL_PASSWORD: Linh1234
+      #MYSQL_PASSWORD: Linh1234
+      MYSQL_PASSWORD: root
       MYSQL_PORT: 3306
 
 volumes:
