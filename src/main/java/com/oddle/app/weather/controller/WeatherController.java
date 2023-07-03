@@ -34,7 +34,7 @@ public class WeatherController {
 
     @GetMapping("")
     public Map<String, Object> getWeathers() {
-        return Collections.singletonMap("message", "Thank you for giving me the opportunity to take this challenge.");
+        return Collections.singletonMap("message", "Welcome to the show!!!");
     }
 
     @GetMapping(value = "/{city}")
